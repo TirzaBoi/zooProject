@@ -19,6 +19,8 @@ screen = pygame.display.set_mode((960, 720), pygame.RESIZABLE)
 clock = pygame.time.Clock()
 running = True
 
+pygame.key.set_repeat(550, 50)
+
 def keep_screen_minimum_resolution(w=960, h=720):
     """Ensures that the window is kept at the minimum resolution or bigger when resizing it"""
     global screen

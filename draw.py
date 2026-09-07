@@ -6,6 +6,8 @@ zooName = ""
 zooNameRight = 0
 
 def draw_init_text(screen:pygame.window):
+    ### TODO: Use JSON files to handle UI views rather than manual python to make the project more expandable
+
     global zooName, zooNameRight
     import main
     # init
@@ -59,7 +61,7 @@ def draw_init_text(screen:pygame.window):
     # *Zoo names input field
     pygame.draw.rect(
                 screen, 
-                "#0d0c0e", 
+                "#0d0c1e", 
                 (text.get_rect().right + text_rect[0] + 10, nextHeight, # To the right of *Zoo name:
                  16 + zooNameRight, text.get_rect().height),
                 0, 7
@@ -70,14 +72,14 @@ def draw_init_text(screen:pygame.window):
                     screen,
                     "white",
                     (text.get_rect().right + text_rect[0] + 20 + zooNameRight, nextHeight + 9),
-                    (text.get_rect().right + text_rect[0] + 19 + zooNameRight, nextHeight + fontSize - 5),
+                    (text.get_rect().right + text_rect[0] + 20 + zooNameRight, nextHeight + fontSize - 5),
         )
     # Zoo name input text
-    fontSize = 25
+    fontSize = 30
     font = pygame.font.Font("fonts/Outfit.ttf", fontSize)
     text = font.render(zooName, True, "white")
 
-    text_rect = (230, nextHeight) # Where to render text
+    text_rect = (230, nextHeight - 2) # Where to render text
     screen.blit(text, text_rect) # Render text
     zooNameRight = text.get_rect().width
     nextHeight += fontSize + 50
