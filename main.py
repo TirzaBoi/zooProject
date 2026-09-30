@@ -50,12 +50,16 @@ class Zoo:
         """, (animal.name, animal.species, animal.age, animal.gender))
         db.commit()
     def remove_animal(self, animal:Animal):
-        """Delete specific animal from animals list and database"""
+        """Delete first matching animal from animals list and database"""
         if animal in self.animals:
             cursor.execute("""
                 DELETE FROM animals
-                WHERE name = ? AND species = ? AND age = ? AND gender = ? 
-                LIMIT 1
+                    WHERE rowid = (
+                        SELECT rowid FROM animals
+                            WHERE name = ? AND species = ? AND age = ? AND gender = ?
+                        LIMIT 1
+                    )
+                        
             """, (animal.name, animal.species, animal.age, animal.gender))
             db.commit()
             self.animals.remove(animal)
@@ -117,12 +121,12 @@ while RUNNING:
                     print("\033[A\033[K", end="")
             gender = input("Animal gender (m/f): ").lower().startswith('f')
             addedAnimal = Animal(name, species, age, gender)
-
+            
             cls()
             printAnimal(addedAnimal)
             if input("\nDo you want this animal to be added to " 
-                     + zoo.name 
-                     + "? (y/n): ").lower().startswith("y"): zoo.add_animal(addedAnimal)
+                    + zoo.name 
+                    + "? (y/n): ").lower().startswith("y"): zoo.add_animal(addedAnimal)
         case 3: # Remove animal
             if len(zoo.animals) == 0:
                 cls()
@@ -149,5 +153,5 @@ while RUNNING:
                         except ValueError: pass # Input was not an index
         case 4: # Exit 
             cls()
-            running = False
+            RUNNING = False
         case _: pass
